@@ -1,7 +1,17 @@
 #include <stdio.h>
 #include "string.h"
+#include "memory.h"
+#include "list.h"
 
 void main() {
-	char str[] = "1234";
-	printf("res: %d", convertStringToNumber(str));
+	List l;
+	makeEmptyList(&l);
+	insertDataToEndList(&l, 5);
+	insertDataToEndList(&l, 6);
+	insertDataToEndList(&l, 10);
+
+	printList(&l);
+	insertDataToEndList(&l, 10);
+	printList(&l);
+
 }
