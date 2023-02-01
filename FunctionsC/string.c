@@ -45,3 +45,5 @@ int convertStringToNumber(String str) {
         if (!isCharDigit(str[i])) return ERROR;
     return atoi(str);
 }
+
+

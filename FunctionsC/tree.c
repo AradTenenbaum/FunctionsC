@@ -121,6 +121,7 @@ int numNodesHelper(TreeNode* root)
 int numOfNodesInTree(Tree t) {
     return numNodesHelper(t.root);
 }
+// @Hadar Binsky
 
 // Calculate tree height
 int getTreeHeight(Tree* tr)
@@ -139,3 +140,4 @@ int getTreeHeightHelper(TreeNode* root)
         return 1 + max(heightLeft, heightRight);
     }
 }
+// @Hadar Binsky

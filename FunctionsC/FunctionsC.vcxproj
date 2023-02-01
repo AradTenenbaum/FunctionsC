@@ -127,6 +127,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bit.c" />
+    <ClCompile Include="file.c" />
     <ClCompile Include="list.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="memory.c" />
@@ -135,6 +137,8 @@
     <ClCompile Include="tree.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bit.h" />
+    <ClInclude Include="file.h" />
     <ClInclude Include="list.h" />
     <ClInclude Include="memory.h" />
     <ClInclude Include="queue.h" />

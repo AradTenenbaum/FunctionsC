@@ -11,21 +11,6 @@ void memoryAndFileValidation(void* ptr) {
 	}
 }
 
-// Swap 2 general variables values
-void swap(void* a, void* b, int elemSize)
-{
-	int i;
-	BYTE temp;
-	BYTE* first = (BYTE*)a;
-	BYTE* second = (BYTE*)b;
-	for (i = 0; i < elemSize; i++)
-	{
-		temp = *(first + i);
-		*(first + i) = *(second + i);
-		*(second + i) = temp;
-	}
-}
-
 // Return a general multi array by the given rows, cols and elementSize
 void** allocateMultiArray(int rows, int cols, int elementSize) {
 	void** arr;
