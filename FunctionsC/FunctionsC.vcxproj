@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="bit.c" />
     <ClCompile Include="file.c" />
+    <ClCompile Include="generic.c" />
     <ClCompile Include="list.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="memory.c" />
@@ -139,11 +140,15 @@
   <ItemGroup>
     <ClInclude Include="bit.h" />
     <ClInclude Include="file.h" />
+    <ClInclude Include="generic.h" />
     <ClInclude Include="list.h" />
     <ClInclude Include="memory.h" />
     <ClInclude Include="queue.h" />
     <ClInclude Include="string.h" />
     <ClInclude Include="tree.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="test.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

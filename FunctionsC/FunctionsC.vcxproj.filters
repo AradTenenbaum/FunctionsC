@@ -39,6 +39,9 @@
     <ClCompile Include="bit.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="generic.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="string.h">
@@ -62,5 +65,13 @@
     <ClInclude Include="bit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="generic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="test.txt">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

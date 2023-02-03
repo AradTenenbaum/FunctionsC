@@ -14,10 +14,14 @@ typedef struct tree
 }Tree;
 
 Tree BuildTreeFromArray(int* arr, int size);
+int* BuildArrayFromTree(Tree tr, int* size);
 void printTreeInorder(Tree tree);
 void printByLevels(Tree tr);
 void freeTree(Tree tree);
 int numOfNodesInTree(Tree t);
-int getTreeHeight(Tree* tr);
+int getTreeHeight(Tree t);
+int isBinSearchTree(Tree t);
+int isBST(Tree t);
+unsigned int findLongestSequenceByFunction(Tree tr, int(*isValid)(TreeNode* t));
 
 #endif 

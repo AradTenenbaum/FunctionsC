@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+// Generic binary search
 int binSearch(void* Arr, int Size, int ElemSize,
     void* Item, int (*compare)(void*, void*)) {
 
@@ -59,3 +60,15 @@ void sort(void* arr, int numElem, int elemSize, int (*compare)(void*, void*))
                 swap((BYTE*)arr + j * elemSize, (BYTE*)arr + (j + 1) * elemSize, elemSize);
 }
 // @Hadar Binsky
+
+
+// Generic function, run from begin until stop returns 1
+// Get next adress using advance, 
+// Run a function func for each element
+void Run(void* begin, int(*stop)(void*), void (*func)(void*), void* (*advance)(void*)) {
+    void* curr = begin;
+    while (!stop(curr)) {
+        func(curr);
+        curr = advance(curr);
+    }
+}

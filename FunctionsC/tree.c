@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "memory.h"
 #include "queue.h"
+#include <math.h>
 
 // Recursive print tree inorder, receive root
 void printTreeInorderNode(TreeNode* tNode)
@@ -124,20 +125,151 @@ int numOfNodesInTree(Tree t) {
 // @Hadar Binsky
 
 // Calculate tree height
-int getTreeHeight(Tree* tr)
-{
-    return getTreeHeightHelper(tr->root);
+int maxInt(int a, int b) {
+    return a > b ? a : b;
 }
-int getTreeHeightHelper(TreeNode* root)
-{
-    int heightLeft, heightRight;
-    if (root == NULL)
-        return -1;
-    else
-    {
-        heightLeft = getTreeHeightHelper(root->left);
-        heightRight = getTreeHeightHelper(root->right);
-        return 1 + max(heightLeft, heightRight);
+int getTreeHeight(Tree t) {
+    return getTreeHeightHelper(t.root);
+}
+int getTreeHeightHelper(TreeNode* root) {
+    if (root == NULL) return -1;
+    return (1 + maxInt(getTreeHeightHelper(root->left), getTreeHeightHelper(root->right)));
+}
+
+
+// Build an array from a tree
+void buildArrayFromTreeHelper(TreeNode* root, int* arr, int size) {
+    int mid = (size / 2);
+    if (root != NULL) {
+        arr[mid] = root->data;
+        buildArrayFromTreeHelper(root->left, arr, mid);
+        buildArrayFromTreeHelper(root->right, arr + mid + 1, mid);
     }
 }
-// @Hadar Binsky
+int* BuildArrayFromTree(Tree tr, int* size) {
+    int height = getTreeHeight(tr);
+    *size = (pow(2, height + 1)) - 1;
+
+    int* arr = malloc(sizeof(int) * (*size));
+    memoryAndFileValidation(arr);
+
+    for (int i = 0; i < *size; i++) arr[i] = -1;
+
+    buildArrayFromTreeHelper(tr.root, arr, *size);
+
+    return arr;
+}
+
+// Get tree max value
+int maxValue(TreeNode* node)
+{
+    if (node == NULL) {
+        return 0;
+    }
+
+    int leftMax = maxValue(node->left);
+    int rightMax = maxValue(node->right);
+
+    int value = 0;
+    if (leftMax > rightMax) {
+        value = leftMax;
+    }
+    else {
+        value = rightMax;
+    }
+
+    if (value < node->data) {
+        value = node->data;
+    }
+
+    return value;
+}
+
+// Get tree min value
+int minValue(TreeNode* node)
+{
+    if (node == NULL) {
+        return 1000000000;
+    }
+
+    int leftMax = minValue(node->left);
+    int rightMax = minValue(node->right);
+
+    int value = 0;
+    if (leftMax < rightMax) {
+        value = leftMax;
+    }
+    else {
+        value = rightMax;
+    }
+
+    if (value > node->data) {
+        value = node->data;
+    }
+
+    return value;
+}
+
+// Check if a tree is a binary search tree
+int isBinSearchTreeHelper(TreeNode* root) {
+    if (root == NULL) {
+        return 1;
+    }
+    if (root->left) {
+        if (root->data < maxValue(root->left)) return 0;
+    }
+    if (root->right) {
+        if (root->data > minValue(root->right)) return 0;
+    }
+    if (!isBinSearchTreeHelper(root->left) || !isBinSearchTreeHelper(root->right)) return 0;
+    return 1;
+}
+int isBinSearchTree(Tree t) {
+    return isBinSearchTreeHelper(t.root);
+}
+
+// Check if tree binary tree in O(n)
+// When you run inorder (left-root-right)
+// if every element is greater than the last,
+// then the tree is BST
+// Binary search is like searching on a sorted array 
+// that represents binary tree
+int isBSTHelper(TreeNode* root, TreeNode** lastNode) {
+    if (root == NULL) return 1;
+    int leftRes = isBSTHelper(root->left, lastNode);
+    if ((*lastNode) == NULL) 
+    {
+        (*lastNode) = root;
+        return 1;
+    }
+    if ((*lastNode)->data >= root->data) return 0;
+    (*lastNode) = root;
+    int rightRes = isBSTHelper(root->right, lastNode);
+    return leftRes && rightRes;
+}
+int isBST(Tree t) {
+    TreeNode* lastNode = NULL;
+    return isBSTHelper(t.root, &lastNode);
+}
+
+// Find the longest sequence of valid tree nodes in the tree
+// The valid definition is dynamic by the input function
+void findLongestSequenceByFunctionHelper(TreeNode* root, int(*isValid)(TreeNode* t), int count, int* max) {
+    if (root != NULL) {
+        if (!isValid(root)) {
+            findLongestSequenceByFunctionHelper(root->left,isValid, 0, max);
+            findLongestSequenceByFunctionHelper(root->right,isValid, 0, max);
+        }
+        else {
+            count++;
+            (*max) = max(count, *max);
+            findLongestSequenceByFunctionHelper(root->left, isValid, count, max);
+            findLongestSequenceByFunctionHelper(root->right, isValid, count, max);
+        }
+    }
+}
+unsigned int findLongestSequenceByFunction(Tree tr, int(*isValid)(TreeNode* t)) {
+    int max = 0;
+    findLongestSequenceByFunctionHelper(tr.root, isValid, 0, &max);
+    return max;
+}
