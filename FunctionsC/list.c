@@ -48,12 +48,49 @@ void insertNodeToEndList(List* lst, ListNode* newTail)
     }
 }
 
+// insert the node to end of the list
+void insertNodeSortedList(List* lst, ListNode* newNode)
+{
+    if (isEmptyList(lst) == true)
+    {
+        lst->head = newNode;
+        lst->tail = newNode;
+    }
+    else if (*(lst->head->dataPtr) > *(newNode->dataPtr))
+    {
+        newNode->next = lst->head;
+        lst->head = newNode;
+    }
+    else if (*(lst->tail->dataPtr) < *(newNode->dataPtr)) {
+        lst->tail->next = newNode;
+        lst->tail = newNode;
+    }
+    else {
+        ListNode* curr = lst->head;
+        ListNode* prev = NULL;
+        while (curr && *(curr->dataPtr) < *(newNode->dataPtr)) {
+            prev = curr;
+            curr = curr->next;
+        }
+        prev->next = newNode;
+        newNode->next = curr;
+    }
+}
+
 // Create a node and insert into the end of the list
 void insertDataToEndList(List* lst, int data)
 {
     ListNode* newTail;
     newTail = createNewListNode(data, NULL);
     insertNodeToEndList(lst, newTail);
+}
+
+// Create a node and insert after a node that is smaller than it
+void insertDataSortedList(List* lst, int data)
+{
+    ListNode* newNode;
+    newNode = createNewListNode(data, NULL);
+    insertNodeSortedList(lst, newNode);
 }
 
 // Free the list

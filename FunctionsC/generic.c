@@ -1,6 +1,8 @@
 #include "generic.h"
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
+#include <string.h>
 
 // Generic binary search
 int binSearch(void* Arr, int Size, int ElemSize,
@@ -71,4 +73,22 @@ void Run(void* begin, int(*stop)(void*), void (*func)(void*), void* (*advance)(v
         func(curr);
         curr = advance(curr);
     }
+}
+
+// Return an array of valid elements by received function
+void* Retrive(void* arr, int numElem, int elemSize, int(*isValid)(void*), int *size) {
+    void* newArr = malloc(numElem*elemSize);
+    void* element;
+    *size = 0;
+
+    for (int i = 0; i < numElem; i++)
+    {
+        element = ((BYTE*)arr + i * elemSize);
+        if (isValid(element)) {
+            memcpy(((BYTE*)newArr + (*size) * elemSize), element, elemSize);
+            (*size)++;
+        }
+    }
+    newArr = realloc(newArr, (*size) * elemSize);
+    return newArr;
 }

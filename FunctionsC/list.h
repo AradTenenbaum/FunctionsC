@@ -17,6 +17,7 @@ struct list
 void makeEmptyList(List* lst);
 bool isEmptyList(List* lst);
 void insertDataToEndList(List* lst, int data);
+void insertDataSortedList(List* lst, int data);
 freeList(List* lst);
 printList(List* lst);
 

@@ -1,5 +1,6 @@
 #include "bit.h"
 #include <stdio.h>
+#include <stdbool.h>
 
 // Swap bytes with xor only
 void bitSwap(BYTE* x, BYTE* y) {
@@ -9,10 +10,10 @@ void bitSwap(BYTE* x, BYTE* y) {
 }
 
 // Check if a bit is set
-int isBitISet(BYTE ch, int i)
+bool isBitSet(BYTE ch, int i)
 {
 	BYTE mask = 1 << i;
-	return mask & ch;
+    return (mask & ch) > 0;
 }
 
 // Print byte in binary format
