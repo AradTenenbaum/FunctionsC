@@ -23,5 +23,6 @@ int getTreeHeight(Tree t);
 int isBinSearchTree(Tree t);
 int isBST(Tree t);
 unsigned int findLongestSequenceByFunction(Tree tr, int(*isValid)(TreeNode* t));
+int isBalanced(Tree t);
 
 #endif 

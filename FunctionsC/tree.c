@@ -273,3 +273,34 @@ unsigned int findLongestSequenceByFunction(Tree tr, int(*isValid)(TreeNode* t)) 
     findLongestSequenceByFunctionHelper(tr.root, isValid, 0, &max);
     return max;
 }
+
+// Return 1 if tree is balanced else 0
+int isBalancedHelper(TreeNode* root, int* level, int* nodesAmount) {
+    if (root == NULL) {
+        *level = -1;
+        *nodesAmount = 0;
+        return 1;
+    }
+    int leftLevel, rightLevel;
+    int leftNodesAmount, rightNodesAmount;
+
+    int isLeftBalanced = isBalancedHelper(root->left, &leftLevel, &leftNodesAmount);
+    int isRightBalanced = isBalancedHelper(root->right, &rightLevel, &rightNodesAmount);
+
+    *level = 1 + max(leftLevel, rightLevel);
+    *nodesAmount = 1 + leftNodesAmount + rightNodesAmount;
+
+
+    if (isLeftBalanced && isRightBalanced) {
+        if (abs(rightLevel - rightLevel) <= 1 && abs(rightNodesAmount - leftNodesAmount) <= 1) return 1;
+        else return 0;
+    }
+    else return 0;
+
+
+}
+
+int isBalanced(Tree t) {
+    int level, nodesAmount;
+    return isBalancedHelper(t.root, &level, &nodesAmount);
+}
