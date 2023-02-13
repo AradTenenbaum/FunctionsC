@@ -4,6 +4,7 @@
 #include "memory.h"
 #include "queue.h"
 #include <math.h>
+#define END_OF_TREE -1
 
 // Recursive print tree inorder, receive root
 void printTreeInorderNode(TreeNode* tNode)
@@ -299,8 +300,82 @@ int isBalancedHelper(TreeNode* root, int* level, int* nodesAmount) {
 
 
 }
-
 int isBalanced(Tree t) {
     int level, nodesAmount;
     return isBalancedHelper(t.root, &level, &nodesAmount);
+}
+
+
+// Returns true if the tree node is a leaf
+bool isLeaf(TreeNode* t) {
+    return (t->left == NULL && t->right == NULL);
+}
+
+
+// Get the minimum path from root to leaf
+void minPathSumHelper(TreeNode* root, int* sum) {
+    
+    if (root == NULL) {
+        *sum = END_OF_TREE;
+    }
+    else {
+        int leftSum = 0, rightSum = 0;
+
+        minPathSumHelper(root->left, &leftSum);
+        minPathSumHelper(root->right, &rightSum);
+
+        if (leftSum == END_OF_TREE && rightSum == END_OF_TREE) *sum += root->data;
+        else if (leftSum == END_OF_TREE) *sum += (root->data + rightSum);
+        else if (rightSum == END_OF_TREE) *sum += (root->data + leftSum);
+        else *sum += (root->data + min(leftSum, rightSum));
+
+    }
+}
+int minPathSum(Tree t) {
+    int sum = 0;
+    minPathSumHelper(t.root, &sum);
+    return sum;
+}
+
+
+// Get the path from root to leaf when:
+// |Height - Path| is the the minimum when the path is sorted
+// If there is no sorted path return -1
+int minPathHeight(int leftSum, int rightSum, int leftHeight, int rightHeight) {
+    if (fabs(leftSum - leftHeight) > fabs(rightSum - rightHeight)) return rightSum;
+    else return leftSum;
+}
+void minDiffSortedPathsHelper(TreeNode* root, int* sum, int* height, TreeNode* prev) {
+
+    if (root == NULL || (prev && root->data < prev->data)) {
+        *sum = END_OF_TREE;
+        *height = END_OF_TREE;
+        //return END_OF_TREE;
+    }
+    else {
+        int leftSum = 0, rightSum = 0;
+        int leftHeight, rightHeight;
+
+        minDiffSortedPathsHelper(root->left, &leftSum, &leftHeight, root);
+        minDiffSortedPathsHelper(root->right, &rightSum, &rightHeight, root);
+
+        if (leftSum == END_OF_TREE && rightSum == END_OF_TREE) *sum += root->data;
+        else if (leftSum == END_OF_TREE) *sum += (root->data + rightSum);
+        else if (rightSum == END_OF_TREE) *sum += (root->data + leftSum);
+        else *sum += (root->data + (minPathHeight(leftSum, rightSum, leftHeight, rightHeight)));
+
+        *height = 1 + max(leftHeight, rightHeight);
+
+        /*if (minDiffLeft == END_OF_TREE && minDiffRight == END_OF_TREE) return (*sum);
+        else if (minDiffLeft == END_OF_TREE) return (int)fabs(*height - (*sum + minDiffRight));
+        else if (minDiffRight == END_OF_TREE) return (int)fabs(*height - *sum) + minDiffLeft;
+        else return (int)fabs(*height - *sum) + min(minDiffLeft, minDiffRight);*/
+
+    }
+}
+int minDiffSortedPaths(Tree t) {
+    int sum = 0;
+    int height;
+    minDiffSortedPathsHelper(t.root, &sum, &height, NULL);
+    return sum;
 }

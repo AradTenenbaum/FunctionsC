@@ -1,5 +1,6 @@
 #ifndef _TREE_H
 #define _TREE_H
+#include <stdbool.h>
 
 typedef struct treeNode
 {
@@ -24,5 +25,9 @@ int isBinSearchTree(Tree t);
 int isBST(Tree t);
 unsigned int findLongestSequenceByFunction(Tree tr, int(*isValid)(TreeNode* t));
 int isBalanced(Tree t);
+int minPathSum(Tree t);
+bool isLeaf(TreeNode* t);
+
+int minDiffSortedPaths(Tree t);
 
 #endif 
